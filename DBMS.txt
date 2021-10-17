@@ -1,0 +1,442 @@
+DBMS:
+------------------------------------------------------------------------------------------------------
+Collection of infomation organised for easy access and management .
+ex: telephone directory, Cudtomer data.
+Types of Data Model:
+1)Record based logical model:
+->Hierarchichal data model(tree)
+->network data model(graph)
+->relational data model (Table)
+2)Object based data model:
+->Entity relationship model
+DBMS : Advantages
+->Sharing data across applications
+->enhanced security
+->backup recovery feature
+**RDBMS**
+A relational database that stores data in a structured form, using rows and columns.
+Makes it easier to locate and access data.
+Values within a table are related to each other , Tables may also be realted with eact other
+Run quries across multiple tavles at once 
+**Features of RDBMS**
+->info stored in tables
+->primary keys for unique identification of rows
+->foreighn keys to ensure data untegrity
+->SQL for data access
+->uses Indexes for faster dtat retrival
+->data security
+** RDBMS vs NORMAL **
+1) data stored : tabuler || data stored : files(JSON)
+2) relation b/w tables || No relation
+** Normalisation**
+->decompose larger, complex tables into smaller ones.
+->lower normal forms to higher normal forms
+->typeds : 1NF,2NF,3NF,4NF,5Nf,.....BSNF.
+**Need for normalition**
+->Avoid replcation of data
+->avoid expensive DBMS operations
+->database operations will be effectibvely performed
+** Functional dependencies **
+Attribute Q is function dependent on P if each value of P determines exactly one value of Q.
+                           (relation)p------Q
+1) partial functional dependencies
+Q id partialy dependent on P if and only if it is dependent in the subset of attribute P.
+                             student# and course#  ------ MArks
+			     course#   ------ courseName
+2) transitive
+x->y y->z x->z
+student#->course#->marks#->grade#
+**1NF**
+->single valued attribute
+->no repeating elements
+**2NF**
+->1st Normal form
+->No partial dependencies between exists b/w non key attribute and key attribute.
+(split or decompose the table to remove partial dependencies) : student table, course table, result table
+**3NF**
+->2nd Normal form.
+->No partial dependencies between exists b/w non key attribute and key attribute through another non key attribute.
+--------------------------------------------------------------------------------------------------------------------
+SQL : programming language for working with database(Defines structure of database)
+->create, ->Manipulate, ->Access, ->retrieve data, ->CRUD
+** SQL data types **
+->Numeric - bit,tinyint,smallint,int,bigint,decimal,numeric,float,real
+->Character/string - Char, Varchar, Text
+->date/Time - Date, Time, Datetime, Timestamp. Year
+->Miscellaneous - Json,XML
+** SQL Constrainsts **
+1)Not Null : Column doesnot have null value
+2)Default : Default value for column when non is specified
+3)Unique : all values in column are different
+4)Primary : Identifies each record of the table (row) uniquely
+5) Check : all values in a column satisfie a certian condition
+6)Index : Creates and retrieves data from the databse 
+** SQL Command Groups **
+DDL : Data definition language (Creation of objects)
+DML : Data Manipulation Language (Manipulation of data)
+DCL : Data control language (Assignment and removal of permissions)
+TCL : Transaction Control Language (Saving and restoring changes to a database )
+**DDL** (Deal with Structure of table )
+Create,Alter,Drop,TRuncate,Rename
+
+COMMAND ONE : creating a table
+CREATE TABLE employees(
+  emp_id int (10) NOT NULL,
+  first_name varchar (20),
+  last_name varchar (20) NOT NULL,
+  salary int (10) NOT NULL,
+  PRIMARY KEY (emp_id)
+);
+COMMAND TWO : showing / running a table
+SELECT * FROM employees;
+COMMAND THREE : Logical structure of table
+DESCRIBE employees; (MySql command wont work for SQLite)
+COMMAND 4 : adding columns
+ALTER TABLE employees ADD COLUMN contact (10) INT ;
+COMMAND 5 :
+ALTER TABLE employees RENAME COLUMN contact TO job_code;
+Datatypes can be capital as well as normal it does not matter.
+COMMAND 6: (Deleting all the records from the table)
+TRUNCTAE TABLE employees;
+COMMAND 7: (Deleting the entire table)
+DROP TABLE employees;
+
+**DML** (Deals with data inside the table)
+INSERT COMMAND :
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (101,'NIKHIL','VYAS',20,111);
+INSERT INTO employeeDB (id,first_name,last_name,job_code) VALUES (102,'ROHIT','SHARMA',222);
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (103,'XYZ','abc',23,345);
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (1,'rohit','sharma',34,111);
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (2,'virat','kohli',33,222);
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (3,'ms','dhoni',41,333);
+INSERT INTO employeeDB (id,first_name,last_name,age,job_code) VALUES (4,'kl','rahul',30,444);
+UPDATE COMMAND :
+UPDATE employeeDB SET age=34 WHERE id=102;
+UPDATE employeeDB SET last_name='SHARMA' WHERE id=101;
+DELETE COMMAND :
+DELETE FROM employeeDB WHERE id IN (102,103);
+DELETE FROM employeeDB WHERE id IN (101);
+
+**DCL** (Deals with Access controls)
+grant : Gives access privilaes to the database.
+GRANT <Privilege List> ON <Relation Name> TO <USER>
+revke : withdraws access privilages given with the grant command.
+REVOKE <Privilege List> ON <Relation Name> TO <USER>
+ **TCL** (Similar to version control like github)
+COMMIT (saves the work done)
+ROLLBACK (Restores the dtabase to the origin state since the last commit)
+SAVEPOINT (Identify a point in a transaction to which you can rollback later)
+
+----------------------------------------------------------------------------------------------------------------
+
+** SQL OPERATORS **
+--------------------
+WHERE Clause : Used to specify a condition while fetching the data from a single table or by joining with multiple tables.
+Used in SELECT,UPDATE,DELETE statements.
+EX : SELECT * FROM employees WHERE id=101;
+**SQL Logical Operators**
+AND,OR,NOT
+SELECT * FROM employeeDB WHERE first_name='nikhil' OR last_name='sharma';
+**SQL Comparison Operators**
+>,>=,<,<=,<>/!=
+SELECT * FROM employeeDB WHERE id>1 AND age>=34;
+** SQL SPECIAL OPERATORS**
+BETWEEN : Checks an attribute value within range.(Range is Inclusive)
+LIKE : Checks an attribute value matches a given string pattern
+IS NULL : Checks an attribute value is null.
+IN : Checks an attribute value matches any value within a value list
+DISTINCT : Limits values to unique values.
+Example :
+SELECT * FROM employeeDB WHERE id BETWEEN 2 and 5;
+SELECT * FROM employeeDB WHERE first_name LIKE 'nikhil';
+SELECT * FROM EmployeeDB WHERE age IS NULL;
+SELECT * FROM employeeDB WHERE age IN (34,12,41);
+SELECT DISTINCT first_name FROM employeeDB; 
+SELECT * FROM employeeDB WHERE first_name LIKE '%i%'; (Select every first name that has i charcter init)
+** SQL OPERATORS AGGREGATIONS **
+Avg() : avg value from specified columns
+Count() ; Return number of table rows
+MAx() : Largest value among the records
+Min() : Smallest Value among the Records
+Sum() : Sum of Specified column values
+EXAMPLE : 
+SELECT AVG(age) FROM employeeDB;
+SELECT MAX(age) FROM employeeDB;
+SELECT MIN(age) FROM employeeDB;
+SELECT COUNT(*) FROM employeeDB; 
+SELECT SUM(age) FROM employeeDB;
+**SQL GROUP BY CLAUSE**
+Arrabge Identical data into groups (IMP)
+EXAMPLE :
+SELECT MIN(age),MAX(age),job_code FROM employeeDB GROUP BY job_code;
+**SQL Having Clause**
+Used with aggregate functins due to its non performance with WHERE clause.
+Must follow the GROUP BY clause in query and mjust also precede the ORDER BY clause if used.
+SELECT MIN(age),MAX(age),job_code FROM employeeDB GROUP BY job_code HAVING COUNT(job_code)>=2;
+**SQL ORDER BY CLAUSE**
+Used to sort the column using select statement
+Deafault sort is in ascending order
+can sort in reverse order by using DESC after column name
+EXAMPLE :
+SELECT * FROM employeeDB ORDER BY age DESC;
+SELECT * FROM employeeDB ORDER BY age;
+**SQL UNION**
+Used to combine the result set of two or more SELECT statements removing duplicates.
+Each SELECT statement within the UNION must have the number of columns
+Selected columns must be of similar data types and in same order in each SELECt statement
+More than two queries can be clubbed using more than one UNION statement
+EXAMPLE:
+--------
+CREATE TABLE product1(
+	id INT NOT NULL,
+    product_name VARCHAR (20),
+    PRIMARY KEY (id)
+);
+CREATE TABLE product2(
+	id INT NOT NULL,
+    product_name VARCHAR(20),
+    PRIMARY KEY (id)
+);
+SELECT * FROM product1;
+SELECT * FROM product2;
+INSERT INTO product1 (id,product_name) VALUES (1,'fan');
+INSERT INTO product1 (id,product_name) VALUES (2,'cooler');
+INSERT INTO product1 (id,product_name) VALUES (3,'ac');
+INSERT INTO product2 (id,product_name) VALUES (1,'computer');
+INSERT INTO product2 (id,product_name) VALUES (2,'laptop');
+INSERT INTO product2 (id,product_name) VALUES (3,'smartphone');
+INSERT INTO product2 (id,product_name) VALUES (4,'tablet');
+INSERT INTO product2 (id,product_name) VALUES (5,'fan');
+SELECT product_name FROM product1 UNION SELECT product_name FROM product2;
+---------------
+** SQL UNION ALL **
+UNION ALL:
+Only difference is that UNION ALL will also allow duplicate values.
+Example :
+SELECT product_name FROM product1 UNION ALL SELECT product_name FROM product2;
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL JOINS : Combine rows/ columns from two or more tables, based on a related column between them in a database .
+INNER JOIN : Returns rows when there is a match in both tables. (A U B) 
+LEFT JOIN : Returns all rows from the left table, even if there are no matches in the right table.((A ^ B) U A) 
+RIGHT JOIN : Return all rows from the left table , even if there are no matches in the left table.((A^B) U B) 
+FULL OUTER JOIN : Returns rows when there is a match in one of the tables.(A^B)U(A-B)U(B-A)
+SELF JOIN : Used to Join a table to itself as if the table were two tables, temporarily renaming at least one table in the SQL in the SQL Statement. A
+Cartesian Join (Cross Join) : Returns the Cartesian produc of the sets of records from the two or more joined tables . A --- B 
+--------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+** SQL INNER JOIN **
+The Inner join creates a new result table by combining column values of two tables (table1 and table2) based upon the join predicate. The Query compares each row of table1 and table2 to find all pairs of rows which satisfy the join predicate.
+Syntax :
+SELECT table1.col1,table2.col2,...,table1.coln
+FROM table1
+INNER JOIN table2
+ON table1.commonfield=table2.commonfield;
+EXAMPLE : 
+----------------------------------------------
+CREATE TABLE employee(
+	id INT NOT NULL,
+    first_name VARCHAR (20),
+    last_name VARCHAR (20),
+    salary INT ,
+    dept_id INT,
+    PRIMARY KEY (id)
+);
+CREATE TABLE department(
+	dept_id INT NOT NULL,
+    dept_name VARCHAR (20),
+    manager_id INT,
+    location VARCHAR (20),
+    PRIMARY KEY (dept_id)
+);
+INSERT INTO employee VALUES (1,'Nikhil','Vyas',1000,111);
+INSERT INTO employee VALUES (2,'Nikhil','sharma',1000,111);
+INSERT INTO employee VALUES (3,'Rahul','Vyas',1000,111);
+INSERT INTO employee VALUES (4,'Rahul','Sharma',1000,111);
+INSERT INTO employee VALUES (5,'Rohit','Sharma',1000,111);
+INSERT INTO department VALUES (1,'IT',11,'Mysore');
+INSERT INTO department VALUES (2,'TEST',22,'Mysore');
+INSERT INTO department VALUES (3,'SALES',33,'Mysore');
+INSERT INTO department VALUES (4,'SUPPORT',44,'Mysore');
+INSERT INTO department VALUES (5,'CONSULTING',55,'Mysore');
+SELECT * FROM employee;
+SELECT * FROM department;
+SELECT e.id,e.first_name,e.last_name,d.dept_name,d.manager_id,d.location FROM employee e INNER JOIN department d ON e.dept_id=d.dept_id;
+----------------------------------------------------------------------------------------------
+**SQL LEFT JOIN / **
+The left join return all values fro the left table, plus matched values from the right table or null in case of no matching join predicate.
+SYNTAX :
+SELECT table1.col1,table2.col2,....,table1.coln
+FROM table1 
+LEFT JOIN
+ON table1.commonfield=tabl2.commonfield;
+EXAMPLE :
+SELECT e.id,e.first_name,e.last_name,e.salary,d.dept_name,d.manager_id,d.location FROM employee e LEFT OUTER JOIN department d ON e.dept_id=d.dept_id;
+---------------------------------------------------------------------------------------------
+** SQL RIGHT JOIN **
+The Right JOin returns all the values from the right table , plus matched values from the left table or null in case of no matching join predicate .
+SYNTAX :
+SELECT table1.col1, table2.col2,.....,table1.coln
+FROM table1
+RIGHT JOIN table2 
+ON table1.commonfield = table2.commonfield
+EXAMPLE :
+SELECT e.id,e.first_name,e.last_name,e.salary,d.dept_name,d.manager_id,d.location FROM employee e RIGHT JOIN department d ON e.dept_id=d.dept_id;
+----------------------------------------------------------------------------------------------
+** FULL OUTER JOIN ** 
+Combines the results of both left join and right join . The joined table will contain all the record from both the tables and fill in NULLs for missing matches on either on either side .
+SYNTAX : 
+SELECT table1.col1,table2.col2,....,table1.coln
+FROM table1 
+LEFT JOIN
+ON table1.commonfield=tabl2.commonfield;
+UNION
+SELECT table1.col1, table2.col2,.....,table1.coln
+FROM table1
+RIGHT JOIN table2 
+ON table1.commonfield = table2.commonfield
+EXAMPLE :
+SELECT e.id,e.first_name,e.last_name,e.salary,d.dept_name,d.manager_id,d.location FROM employee e LEFT JOIN department d ON e.dept_id=d.dept_id
+UNION
+SELECT e.id,e.first_name,e.last_name,e.salary,d.dept_name,d.manager_id,d.location FROM employee e RIGHT JOIN department d ON e.dept_id=d.dept_id;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+** SQL CROSS JOIN **
+Return the cartesian product of two tables .
+SYNTAX :
+SELECT * FROM table1 CROSS JOIN table2;
+EXAMPLE :
+SELECT * FROM employee CROSS JOIN department;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**SUBSTR FUNCTION **
+Example
+Extract a substring from a string (start at position 5, extract 3 characters):
+SELECT SUBSTR("SQL Tutorial", 5, 3) AS ExtractString;
+Syntax
+SUBSTR(string, start, length)
+OR:
+SUBSTR(string FROM start FOR length)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LAB SESSIONS
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE cricket1(
+	id INT ,
+    player_name VARCHAR(20),
+    runs INT,
+    popularity INT
+);
+CREATE TABLE cricket2(
+	id INT,
+    player_name VARCHAR(20),
+    runs INT,
+    charisma INT
+);
+INSERT INTO cricket1 (id,player_name,runs,popularity) VALUES (1,'virat','50',61);
+INSERT INTO cricket1 (id,player_name,runs,popularity) VALUES (2,'rohit','41',39);
+INSERT INTO cricket1 (id,player_name,runs,popularity) VALUES (3,'dhoni','34',59);
+INSERT INTO cricket1 (id,player_name,runs,popularity) VALUES (4,'sachin','59',60);
+INSERT INTO cricket1 (id,player_name,runs,popularity) VALUES (5,'yuvraj','57',45);
+
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (1,'virat','50',61);
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (2,'rohit','41',39);
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (3,'dhoni','34',59);
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (4,'sachin','59',60);
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (5,'yuvraj','57',45);
+INSERT INTO cricket2 (id,player_name,runs,charisma) VALUES (6,'sehwag','49',44);
+
+SELECT * FROM cricket1;
+SELECT * FROM cricket2;
+
+-- ALL THE PLAYERS WHO WERE PRESENT IN THE TEST MATCH. (the table which is written first its data will be reflected)
+SELECT * FROM cricket2 UNION SELECT * FROM cricket1;
+-- ALL PLAYERS FROM CRICKET1 HAVING POPULARITY GREATER THAN AVERAGE POPULARITY.
+SELECT AVG(popularity) FROM cricket1;
+SELECT player_name,popularity FROM cricket1 WHERE popularity > (SELECT AVG(popularity) FROM cricket1);
+-- FIND PLAYERID AND PLAYERNAME COMMON IN CRICKET1 AND CRICKET2 (LIST IS COMPARED WITH IN WHILE DATA IS COMPARED BY INEQUALITY)
+SELECT id,player_name FROM 	cricket1 WHERE cricket1.id IN (SELECT id FROM cricket2);
+-- DISPLAY PLAYERID,PLAYERNAME,RUNS FROM CRICET1 WHERE RUNS SCORED IS GREATER THAN AVERAGE RUNS.
+SELECT AVG(runs) FROM cricket1;
+SELECT id,player_name,runs FROM cricket1 WHERE cricket1.runs > (SELECT AVG(runs) FROM cricket1);
+-- DISPLAY PLAYERID,PLAYERNAME,RUNS FROM CRICET1 WHERE RUNS SCORED IS GREATER THAN 50 RUNS.
+SELECT id,player_name,runs FROM cricket1 WHERE cricket1.runs > 50;
+-- WRITE A QUERY TO EXTRACT ALL THE COLUMNS FROM CRICKET1 WHERE THE NAME STARTS FROM Y AND ENDS WITH J (STRING PATTERN IS CHECKED THROUGH LIKE CLAUSE)
+SELECT * FROM cricket1 WHERE cricket1.player_name LIKE 'y%j';
+-- WRITE A QUERY TO EXTRACT ALL THE COLUMNS FROM CRICKET1 WHERE THE NAME NOT ENDS WITH T (STRING PATTERN IS CHECKED THROUGH NOT LIKE CLAUSE ALSO)
+SELECT * FROM cricket1 WHERE cricket1.player_name NOT LIKE '%t';
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE cricket(
+	id INT ,
+    player_name VARCHAR(20),
+    runs INT,
+    popularity INT,
+    id_0 INT,
+    player_name_0 VARCHAR(20),
+    runs_0 INT,
+    charisma INT
+);
+INSERT INTO cricket VALUES (1,'virat',50,79,1,'virat',50,49);
+INSERT INTO cricket VALUES (2,'rohit',64,89,2,'rohit',64,56);
+INSERT INTO cricket VALUES (3,'dhoni',83,87,3,'dhoni',83,73);
+INSERT INTO cricket VALUES (4,'sachin',100,67,4,'sachin',100,91);
+INSERT INTO cricket VALUES (5,'sehwag',28,90,5,'sehwag',28,71);
+INSERT INTO cricket (id,player_name,runs,popularity) VALUES (5,'dhawan',34,45);
+INSERT INTO cricket (id,player_name,runs,popularity) VALUES (5,'pujara',56,23);
+INSERT INTO cricket (id,player_name,runs,popularity) VALUES (5,'rahane',4,30);
+SET SQL_SAFE_UPDATES=0;
+UPDATE cricket SET id=6 WHERE player_name='dhawan';
+UPDATE cricket SET id=7 WHERE player_name='pujara';
+UPDATE cricket SET id=8 WHERE player_name='rahane';
+SELECT * FROM cricket;
+
+-- EXTRACT THE PLAYERID AND PLAYERNAME OF THE DATA WHERE CHARISMA VALUE IS ZERO.
+SELECT ID,PLAYER_NAME FROM cricket WHERE cricket.charisma IS NULL;
+-- EXTRACT PLAYERID , PLAYERNAME, CHARISMA WHERE THE CHARISMA IS GREATER THAN 25.
+SELECT id,player_name,charisma FROM cricket WHERE cricket.charisma > (25);
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATING AND USING A DATABASE COMMAND:
+CREATE DATABASE bank;
+USE bank;
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE bank_details(
+	product VARCHAR(30),
+    quantity INT,
+    price REAL,
+    purchase_cost DECIMAL(6,2),
+    estimated_sales_price FLOAT
+);
+SELECT * FROM bank_details;
+DESCRIBE bank_details;
+INSERT INTO bank_details VALUES ('payCard',3,330,8008,9009);
+INSERT INTO bank_details VALUES ('payPoints',4,200,8000,6800);
+ALTER TABLE bank_details ADD COLUMN geo_location VARCHAR(20);
+SELECT geo_location FROM bank_details WHERE product='payCard';
+SELECT product,LENGTH(product) FROM bank_details WHERE product='payCard';
+ALTER TABLE bank_details MODIFY product CHAR(10);
+ALTER TABLE bank_details MODIFY product VARCHAR(20);
+-- REDUCING SIZE TO LESS THAN 9 IS NOT POSSIBLE IT WILL PRODUCE AN ERROR.
+ALTER TABLE bank_details MODIFY product VARCHAR(6);
+
+CREATE TABLE bank_holidays(
+	holiday DATE,
+    start_time DATETIME,
+    end_time TIMESTAMP
+);
+DESCRIBE bank_holidays;
+SELECT * FROM bank_holidays;
+INSERT INTO bank_holidays VALUES (CURRENT_DATE(),CURRENT_DATE(),CURRENT_DATE());
+UPDATE bank_holidays SET holiday = DATE_ADD(holiday,INTERVAL 1 DAY);
+UPDATE bank_holidays SET end_time = UTC_TIMESTAMP();
+-- DISPLAYING EXISTING COLUMN BY NEW NAME 
+SELECT product AS new_product FROM bank_details;
+-- DISPLAY ONLY ONE RECORD
+SELECT * FROM bank_details LIMIT 1;
+-- PRINTING A SUBSTRING IN SQL 
+SELECT SUBSTR(geo_location,1,5) FROM bank_details;
